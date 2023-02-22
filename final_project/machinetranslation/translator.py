@@ -17,6 +17,8 @@ language_translator = LanguageTranslatorV3(
 
 language_translator.set_service_url(url_lt)
 
+language_translator.set_disable_ssl_verification(True)
+
 def english_to_french(english_text):
 
     french_text = language_translator.translate(
