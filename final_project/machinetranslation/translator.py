@@ -1,4 +1,3 @@
-import json
 import os
 from ibm_watson import LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -13,13 +12,20 @@ def english_to_french(english_text):
 
     authenticator = IAMAuthenticator(apikey)
 
-    language_translator = LanguageTranslatorV3(version = '2018-05-01', authenticator = authenticator)
+    language_translator = LanguageTranslatorV3(
+        version = '2023-01-13', 
+        authenticator=authenticator
+        )
 
     language_translator.set_service_url(url)
 
-    french_translation = language_translator.translate(text = english_text, model_id = 'en-fr').get_result()
+    french_translation = language_translator.translate(
+        text = english_text, 
+        model_id = 'en-fr')
 
-    french_text = french_translation.get['translations'][0].get['translation']
+    dictionary = french_translation.get_result()
+
+    french_text = dictionary['translations'][0]['translation']
 
     return french_text
 
@@ -27,12 +33,19 @@ def french_to_english(french_text):
 
     authenticator = IAMAuthenticator(apikey)
 
-    language_translator = LanguageTranslatorV3(version = '2018-05-01', authenticator = authenticator)
+    language_translator = LanguageTranslatorV3(
+        version = '2023-01-13', 
+        authenticator=authenticator
+        )
 
     language_translator.set_service_url(url)
 
-    english_translation = language_translator.translate(text = french_text, model_id = 'fr-en').get_result()
+    english_translation = language_translator.translate(
+        text = french_text, 
+        model_id = 'fr-en')
 
-    english_text = english_translation.get['translations'][0].get['translation']
+    dictionary = english_translation.get_result()
+
+    english_text = dictionary['translations'][0]['translation']
 
     return english_text
